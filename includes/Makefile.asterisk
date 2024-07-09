@@ -1,0 +1,33 @@
+ASTDOCKERDEBS=$(addprefix asteriskdocker/,$(SPDSPDEBS))
+ASTDTRIGGER=.astdockerbuild
+
+.PHONY: asterisk
+asterisk: $(ASTDEB)
+
+.PHONY: astdocker
+astdocker: $(ASTDTRIGGER)
+
+ashell: $(ASTDTRIGGER)
+	docker run --rm -it --privileged -w /src/asterisk-$(ASTVER) $(BASEDVOLUMES) asteriskdocker bash
+
+$(ASTDTRIGGER): $(ASTDOCKERDEBS) $(wildcard asteriskdocker/*)
+	docker build -t asteriskdocker asteriskdocker && touch $@
+
+asteriskdocker/%.deb:
+	cp $(DEBDEST)/$(@F) $@
+
+$(ASTDEB): $(ASTDTRIGGER) $(ASTDEST)/debian/control
+	docker run --rm -it --privileged -w /src/asterisk-$(ASTVER) $(BASEDVOLUMES) asteriskdocker dpkg-buildpackage -us -uc
+
+$(ASTDEST)/debian/control: $(SRCDIR)/astdeb.tar.gz | $(ASTDEST)/configure.ac
+	mkdir -p $(@D) && tar -C $(@D) --strip-components=1 -zxf $<
+
+$(ASTDEST)/configure.ac: | $(ORIGFILE)
+	mkdir -p $(@D) && tar -C $(@D) --strip-components=1 -zxf $|
+
+$(SRCDIR)/astdeb.tar.gz: $(wildcard asterisk-debian/*) | $(SRCDIR)
+	tar -C asterisk-debian -zcvf $@ .
+
+$(ORIGFILE): $(SRCDIR)/$(ASTFILE)
+	cp $< $@
+

@@ -1,0 +1,7 @@
+.PHONY: flite
+flite: $(FLITEDEST)/Makefile
+
+$(FLITEDEST)/Makefile: |src/$(FLITEFILE)
+	mkdir -p $(@D) && tar -C $(@D) --strip-components=1 -zxf $|
+
+

@@ -1,17 +1,3 @@
-# This is the 'import-docbook-xsl' branch
-SPDSPCOMMIT=530d58364fff
-SPDSPBUILD=3.0.0-42
-ORIGFILE=spandsp_3.0.0.orig.tar.gz
-
-
-# We download a bundle from github, which has the filename of the hash
-SPDSPFILE=$(SRCDIR)/$(SPDSPCOMMIT).tar.gz
-WGETURL_$(SPDSPCOMMIT).tar.gz=https://github.com/phonebocx/spandsp/archive/$(SPDSPCOMMIT).tar.gz
-SPDSPDEST=$(SRCDIR)/spandsp-$(SPDSPCOMMIT)
-
-SPDSPDEBNAME=libspandsp3_$(SPDSPBUILD)_amd64.deb
-SPDSPDEB=$(DEBDEST)/$(SPDSPDEBNAME)
-
 PREREQS += $(SPDSPDEB)
 
 # Spandsp uses the base builder docker image
@@ -20,14 +6,14 @@ $(SPDSPDEB): $(SRCDIR)/$(SPDSPDEBNAME)
 	mkdir -p $(@D) && cp $(wildcard $(SRCDIR)/*spandsp*.deb) $(@D)
 
 
-$(SRCDIR)/$(SDSPDEBNAME): $(BASEDTRIGGER) $(SPDSPDEST)/configure.ac
+$(SRCDIR)/$(SPDSPDEBNAME): $(BASEDTRIGGER) $(SPDSPDEST)/configure.ac
 	@echo "Woot I am ready to go building"
 	docker run --rm -it --privileged -w /src/spandsp-$(SPDSPCOMMIT) $(BASEDVOLUMES) spandspbuild dpkg-buildpackage -us -uc
 
-$(SRCDIR)/$(ORIGFILE): $(SPDSPFILE)
+$(SRCDIR)/$(SPDSPORIGFILE): $(SPDSPFILE)
 	cp $< $@
 
-$(SPDSPDEST)/configure.ac: | $(SRCDIR)/$(ORIGFILE)
+$(SPDSPDEST)/configure.ac: | $(SRCDIR)/$(SPDSPORIGFILE)
 	mkdir -p $(@D) && tar -C $(@D) --strip-components=1 -zxf $|
 
 

@@ -1,4 +1,4 @@
 .*dockerbuild
 debs
 src
-
+**/*deb

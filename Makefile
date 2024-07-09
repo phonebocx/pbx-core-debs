@@ -25,6 +25,7 @@ halp: setup
 	@echo "No help yet"
 
 # Drag in any includes
+include Makefile.settings
 include $(wildcard includes/Makefile.*)
 
 # This is anything that's in TOOLS or STOOLS

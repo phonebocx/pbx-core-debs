@@ -1,0 +1,33 @@
+# Flite settings (TBD)
+FLITECOMMIT=a3ed85151a1
+FLITEVERS=3.0
+FLITEFILE=$(FLITECOMMIT).tar.gz
+WGETURL_$(FLITEFILE)=https://github.com/zaf/Asterisk-Flite/archive/$(FLITEFILE)
+FLITEDEST=$(SRCDIR)/flite-$(FLITECOMMIT)
+
+# SpanDSP - This is the 'import-docbook-xsl' branch of spandsp
+SPDSPCOMMIT=530d58364fff
+SPDSPBUILD=3.0.0-42
+SPDSPORIGFILE=spandsp_3.0.0.orig.tar.gz
+
+# We download a bundle from github, which has the filename of the hash
+SPDSPFILE=$(SRCDIR)/$(SPDSPCOMMIT).tar.gz
+WGETURL_$(SPDSPCOMMIT).tar.gz=https://github.com/phonebocx/spandsp/archive/$(SPDSPCOMMIT).tar.gz
+SPDSPDEST=$(SRCDIR)/spandsp-$(SPDSPCOMMIT)
+
+SPDSPDEBNAME=libspandsp3_$(SPDSPBUILD)_amd64.deb
+SPDSPDEB=$(DEBDEST)/$(SPDSPDEBNAME)
+
+# This is used by the astdocker container
+SPDSPDEBS=libspandsp3_$(SPDSPBUILD)_amd64.deb libspandsp3-dbgsym_$(SPDSPBUILD)_amd64.deb libspandsp3-dev_$(SPDSPBUILD)_amd64.deb libspandsp3-doc_$(SPDSPBUILD)_all.deb
+
+# Asterisk settings
+ASTVER=20.8.1
+ASTBUILD=1
+ASTFILE=asterisk-$(ASTVER).tar.gz
+WGETURL_$(ASTFILE)=http://downloads.asterisk.org/pub/telephony/asterisk/releases/$(ASTFILE)
+ORIGFILE=$(SRCDIR)/asterisk_$(ASTVER).orig.tar.gz
+ASTDEST=$(SRCDIR)/asterisk-$(ASTVER)
+ASTDEBVER=$(ASTVER)-$(ASTBUILD)
+ASTDEB=$(SRCDIR)/asterisk_$(ASTDEBVER)_amd64.deb
+ALLASTDEBS=asterisk_$(ASTDEBVER)_amd64.deb asterisk-config_$(ASTDEBVER)_all.deb asterisk-dahdi_$(ASTDEBVER)_amd64.deb asterisk-dahdi-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-dev_$(ASTDEBVER)_all.deb asterisk-doc_$(ASTDEBVER)_all.deb asterisk-mobile_$(ASTDEBVER)_amd64.deb asterisk-mobile-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-modules_$(ASTDEBVER)_amd64.deb asterisk-modules-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-mp3_$(ASTDEBVER)_amd64.deb asterisk-mp3-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-ooh323_$(ASTDEBVER)_amd64.deb asterisk-ooh323-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-voicemail_$(ASTDEBVER)_amd64.deb asterisk-voicemail-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-voicemail-imapstorage_$(ASTDEBVER)_amd64.deb asterisk-voicemail-imapstorage-dbgsym_$(ASTDEBVER)_amd64.deb asterisk-voicemail-odbcstorage_$(ASTDEBVER)_amd64.deb asterisk-voicemail-odbcstorage-dbgsym_$(ASTDEBVER)_amd64.deb
