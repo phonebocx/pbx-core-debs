@@ -1,0 +1,10 @@
+# Base docker container to bootstrap building everything
+BASEDVOLUMES=-v $(shell pwd)/src:/src
+BASEDTRIGGER=.basedockerbuild
+
+.PHONY: basedocker
+basedocker: $(BASEDTRIGGER)
+
+$(BASEDTRIGGER): $(wildcard basedocker/*)
+	docker build -t basedocker basedocker && touch $@
+

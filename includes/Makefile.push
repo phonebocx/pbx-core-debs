@@ -1,0 +1,7 @@
+DEPOT=../depot
+INCOMING=$(DEPOT)/incoming
+
+.PHONY: push
+push:
+	DEBS="$(wildcard $(SRCDIR)/*.deb)"; if [ "$$DEBS" ]; then  echo "I have found these debs: $$DEBS"; cp $$DEBS $(INCOMING); cd $(DEPOT); make repo; fi
+
