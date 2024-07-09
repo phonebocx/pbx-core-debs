@@ -1,6 +1,8 @@
 ASTDOCKERDEBS=$(addprefix asteriskdocker/,$(SPDSPDEBS))
 ASTDTRIGGER=.astdockerbuild
 
+ASTBUILDER=Rob Thomas <xrobau@gmail.com>
+
 .PHONY: asterisk
 asterisk: $(ASTDEB)
 
@@ -16,8 +18,13 @@ $(ASTDTRIGGER): $(ASTDOCKERDEBS) $(wildcard asteriskdocker/*)
 asteriskdocker/%.deb:
 	cp $(DEBDEST)/$(@F) $@
 
-$(ASTDEB): $(ASTDTRIGGER) $(ASTDEST)/debian/control
+$(ASTDEB): $(ASTDTRIGGER) $(ASTDEST)/debian/changelog
 	docker run --rm -it --privileged -w /src/asterisk-$(ASTVER) $(BASEDVOLUMES) asteriskdocker dpkg-buildpackage -us -uc
+
+$(ASTDEST)/debian/changelog: $(ASTDEST)/debian/changelog.template
+	@sed -e 's/__ASTVER__/$(ASTVER)/' -e 's/__ASTBUILD__/$(ASTBUILD)/' -e 's/__BUILDER__/$(ASTBUILDER)/' -e 's/__DATER__/$(shell date -R)/' < $< > $@
+
+$(ASTDEST)/debian/changelog.template: $(ASTDEST)/debian/control
 
 $(ASTDEST)/debian/control: $(SRCDIR)/astdeb.tar.gz | $(ASTDEST)/configure.ac
 	mkdir -p $(@D) && tar -C $(@D) --strip-components=1 -zxf $<

@@ -23,7 +23,7 @@ SPDSPDEBS=libspandsp3_$(SPDSPBUILD)_amd64.deb libspandsp3-dbgsym_$(SPDSPBUILD)_a
 
 # Asterisk settings
 ASTVER=20.8.1
-ASTBUILD=1
+ASTBUILD=2
 ASTFILE=asterisk-$(ASTVER).tar.gz
 WGETURL_$(ASTFILE)=http://downloads.asterisk.org/pub/telephony/asterisk/releases/$(ASTFILE)
 ORIGFILE=$(SRCDIR)/asterisk_$(ASTVER).orig.tar.gz
